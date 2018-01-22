@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import <WebKit/WebKit.h>
 
 @interface ViewController ()
+
+@property (weak, nonatomic) IBOutlet WKWebView *vistaWeb;
 
 @end
 
@@ -16,7 +19,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+ 
+    /* CARGAR UNA PAGINA WEB REMOTA
+    NSURL *direccionWeb = [NSURL URLWithString:@""];
+    NSURLRequest *peticionWeb = [NSURLRequest requestWithURL:direccionWeb];*/
+    
+    NSString *rutaFicheroHTML = [[NSBundle mainBundle] pathForResource:@"CICE" ofType:@"html"];
+    
+    /// CARGAR UNA PÁGINA WEB LOCAL
+    NSString *webHTML = [NSString stringWithContentsOfFile:rutaFicheroHTML encoding:NSUTF8StringEncoding error:nil];
+    NSURL *urlBundle = [[NSBundle mainBundle] resourceURL];
+    NSURL *urlCarpetaBase = [NSURL URLWithString:@"CICE_files" relativeToURL:urlBundle];
+    
+    [self.vistaWeb loadHTMLString:webHTML baseURL:urlCarpetaBase];
+    [self.vistaWeb reload];
+
 }
 
 
